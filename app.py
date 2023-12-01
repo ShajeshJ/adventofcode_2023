@@ -9,6 +9,7 @@ class Solutions(t.Protocol):
 
 
 import days.day1.solutions as day1
+
 ALL_DAYS: dict[int, Solutions] = {
     1: day1,
 }
@@ -21,20 +22,21 @@ def run_solution(solution: Solutions, part_num: t.Literal[1, 2]) -> None:
 
 
 def main() -> None:
+    print(f"Days with solutions: {", ".join(str(day) for day in ALL_DAYS)}\n")
+
     solution = None
     while not solution:
         try:
             solution = ALL_DAYS[int(input("Which day would you like to run? "))]
         except (ValueError, KeyError):
-            print("Invalid day number. Try again\n")
+            print("Invalid day. Try again\n")
 
     part_num = None
     while not part_num:
-        match val := input("Would you like to run part 1 or 2? "):
-            case "1" | "2":
-                part_num = int(val)
-            case _:
-                print("Invalid part number. Try again\n")
+        if val := input("Would you like to run part 1 or 2? ") in ["1", "2"]:
+            part_num = int(val)
+        else:
+            print("Invalid part. Try again\n")
 
     run_solution(solution, part_num)
 

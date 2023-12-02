@@ -12,6 +12,9 @@ class Round:
     def __gt__(self, other: "Round") -> bool:
         return self.red > other.red or self.blue > other.blue or self.green > other.green
 
+    def __le__(self, other: "Round") -> bool:
+        return self.red <= other.red and self.blue <= other.blue and self.green <= other.green
+
 @dataclass
 class Game:
     id: int
@@ -41,7 +44,7 @@ def part_1() -> str:
 
     id_sum = 0
     for game in games:
-        if not any(round > max_cubes for round in game.rounds):
+        if all(round <= max_cubes for round in game.rounds):
             id_sum += game.id
 
     return str(id_sum)

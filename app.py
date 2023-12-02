@@ -35,7 +35,7 @@ def main() -> None:
 
     part_num = None
     while not part_num:
-        if val := input("Would you like to run part 1 or 2? ") in ["1", "2"]:
+        if (val := input("Would you like to run part 1 or 2? ")) in ["1", "2"]:
             part_num = int(val)
         else:
             print("Invalid part. Try again\n")

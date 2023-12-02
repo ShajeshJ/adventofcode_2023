@@ -21,7 +21,7 @@ class Game:
     rounds: list[Round]
 
     @classmethod
-    def from_str(cls: type[Self], game_str: str) -> Self:
+    def from_str(cls, game_str: str) -> Self:
         id_str, rounds_str = game_str.removeprefix("Game ").split(":", 1)
 
         rounds_str_list = rounds_str.replace(" ", "").strip().split(";")

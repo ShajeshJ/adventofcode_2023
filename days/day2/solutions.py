@@ -28,12 +28,12 @@ class Game:
         rounds: list[Round] = []
 
         for round_str in rounds_str_list:
-            round = Round()
+            colors: dict[str, int] = {}
             for color in ["red", "blue", "green"]:
                 match = re.search(rf"(\d+){color}", round_str)
                 if match:
-                    setattr(round, color, int(match.group(1)))
-            rounds.append(round)
+                    colors[color] = int(match.group(1))
+            rounds.append(Round(**colors))
 
         return cls(int(id_str), rounds)
 

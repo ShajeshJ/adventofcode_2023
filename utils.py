@@ -9,4 +9,4 @@ def read_problem_input(filename: str = "input.txt") -> list[str]:
     caller_frame = inspect.stack()[1].frame
     caller_package = inspect.getmodule(caller_frame).__package__
     with files(caller_package).joinpath(filename).open() as f:
-        return f.readlines()
+        return [l.strip() for l in f.readlines()]

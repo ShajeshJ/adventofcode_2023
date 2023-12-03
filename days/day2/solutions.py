@@ -42,22 +42,22 @@ def part_1() -> str:
     games = (Game.from_str(game_str) for game_str in read_problem_input())
     max_cubes = Round(12, 13, 14)
 
-    id_sum = 0
+    id_total = 0
     for game in games:
         if all(round <= max_cubes for round in game.rounds):
-            id_sum += game.id
+            id_total += game.id
 
-    return str(id_sum)
+    return str(id_total)
 
 
 def part_2() -> str:
     games = (Game.from_str(game_str) for game_str in read_problem_input())
 
-    power_sum = 0
+    power_total = 0
     for game in games:
         max_red = max(round.red for round in game.rounds)
         max_blue = max(round.blue for round in game.rounds)
         max_green = max(round.green for round in game.rounds)
-        power_sum += max_red * max_blue * max_green
+        power_total += max_red * max_blue * max_green
 
-    return str(power_sum)
+    return str(power_total)

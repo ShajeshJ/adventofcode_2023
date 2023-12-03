@@ -36,7 +36,7 @@ def add_schematic_padding(schematic: list[str]) -> list[str]:
 def part_1() -> str:
     schematic = add_schematic_padding(read_problem_input())
     num_builder = ""
-    sum = 0
+    total = 0
 
     for i, line in enumerate(schematic):
         for j, c in enumerate(line):
@@ -45,11 +45,11 @@ def part_1() -> str:
                 continue
 
             if num_builder and next_to_symbol(schematic, i, j-len(num_builder), j-1):
-                sum += int(num_builder)
+                total += int(num_builder)
 
             num_builder = ""
 
-    return str(sum)
+    return str(total)
 
 
 def is_gear(schematic: list[str], i: int, j: int) -> bool:

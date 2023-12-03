@@ -2,18 +2,18 @@ from utils import read_problem_input
 
 def part_1() -> str:
     lines = read_problem_input()
-    sum = 0
+    total = 0
 
     for line in lines:
         num_str = next(n for n in line if n.isdigit()) + next(n for n in reversed(line) if n.isdigit())
-        sum += int(num_str)
+        total += int(num_str)
 
-    return str(sum)
+    return str(total)
 
 
 def part_2() -> str:
     lines = read_problem_input()
-    sum = 0
+    total = 0
     valid_words = {
         "one": 1,
         "two": 2,
@@ -39,6 +39,6 @@ def part_2() -> str:
                     numeric_line += str(value)
                     break
 
-        sum += int(numeric_line[0] + numeric_line[-1])
+        total += int(numeric_line[0] + numeric_line[-1])
 
-    return str(sum)
+    return str(total)

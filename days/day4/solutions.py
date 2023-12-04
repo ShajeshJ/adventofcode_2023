@@ -23,9 +23,11 @@ class Card:
         return sum(1 for num in self.owned if num in self.winners)
 
 def part_1() -> str:
+    def _calculate_points(num_wins) -> int:
+        return 2**(num_wins - 1) if num_wins > 0 else 0
+
     cards = (Card.from_str(s) for s in read_problem_input())
-    win_counts = (card.get_num_winners() for card in cards)
-    total = sum(2**(num_wins - 1) if num_wins > 0 else 0 for num_wins in win_counts)
+    total = sum(_calculate_points(card.get_num_winners()) for card in cards)
     return str(total)
 
 def part_2() -> str:

@@ -13,12 +13,11 @@ class Card:
     @classmethod
     def from_str(cls, s: str) -> Self:
         id_str, s = s.replace("Card ", "").split(":")
-        _id = int(id_str)
         s = s.strip()
         winners_str, owned_str = s.split(" | ")
         winners = {int(num) for num in winners_str.split(" ") if num}
         owned = [int(num) for num in owned_str.split(" ") if num]
-        return cls(_id, winners, owned)
+        return cls(int(id_str), winners, owned)
 
     def get_num_winners(self) -> int:
         return sum(1 for num in self.owned if num in self.winners)

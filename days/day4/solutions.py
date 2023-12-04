@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Callable, Self
+from typing import Self
 
 from utils import read_problem_input
 

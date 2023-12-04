@@ -11,11 +11,13 @@ class Solutions(t.Protocol):
 import days.day1.solutions as day1
 import days.day2.solutions as day2
 import days.day3.solutions as day3
+import days.day4.solutions as day4
 
 ALL_DAYS: dict[int, Solutions] = {
     1: day1,
     2: day2,
     3: day3,
+    4: day4,
 }
 
 def run_solution(solution: Solutions, part_num: t.Literal[1, 2]) -> None:

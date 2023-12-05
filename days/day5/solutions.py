@@ -37,46 +37,46 @@ def part_1() -> str:
     lines = lines[2:]
 
     while len(lines) > 0:
-        lines, translation_maps = parse_maps(lines)
+        lines, tmaps = parse_maps(lines)
         next_seeds: list[int] = []
-        for seed in seeds:
-            for m in translation_maps:
-                if seed in m:
-                    next_seeds.append(m.translate(seed))
+        for s in seeds:
+            for m in tmaps:
+                if s in m:
+                    next_seeds.append(m.translate(s))
                     break
             else:
-                next_seeds.append(seed)
+                next_seeds.append(s)
         seeds = next_seeds
         lines = lines[1:]
 
     return str(min(seeds))
 
 
-def process_seed_ranges(seed_ranges: list[tuple[int, int]], translation_maps: list[TranslationMap]) -> list[tuple[int, int]]:
+def process_seed_ranges(seeds: list[tuple[int, int]], tmaps: list[TranslationMap]) -> list[tuple[int, int]]:
     """Process a list of seed ranges using a list of translation maps"""
     next_ranges: list[tuple[int, int]] = []
-    range_stack = list(seed_ranges)
+    queue = list(seeds)
 
-    while range_stack:
-        seed_range = range_stack.pop(0)
-        for m in translation_maps:
-            if seed_range[0] in m and seed_range[1] in m:
+    while queue:
+        s = queue.pop(0)
+        for m in tmaps:
+            if s[0] in m and s[1] in m:
                 # Full range is translatable by m
-                next_ranges.append((m.translate(seed_range[0]), m.translate(seed_range[1])))
+                next_ranges.append((m.translate(s[0]), m.translate(s[1])))
                 break
-            elif seed_range[0] in m:
+            elif s[0] in m:
                 # Only first half of range can be translated by m
-                next_ranges.append((m.translate(seed_range[0]), m.destination + m.length - 1))
-                range_stack.append((m.source + m.length, seed_range[1]))
+                next_ranges.append((m.translate(s[0]), m.destination + m.length - 1))
+                queue.append((m.source + m.length, s[1]))
                 break
-            elif seed_range[1] in m:
+            elif s[1] in m:
                 # Only second half of range can be translated by m
-                next_ranges.append((m.destination, m.translate(seed_range[1])))
-                range_stack.append((seed_range[0], m.source - 1))
+                next_ranges.append((m.destination, m.translate(s[1])))
+                queue.append((s[0], m.source - 1))
                 break
         else:
             # The entire range is not contained in any map
-            next_ranges.append(seed_range)
+            next_ranges.append(s)
 
     return next_ranges
 
@@ -86,26 +86,26 @@ def part_2() -> str:
     seeds_strs = lines.pop(0).replace("seeds: ", "").split(" ")
 
     # Parse seeds into tuples of [start, end] inclusively for each seed range
-    init_seeds: list[tuple[int, int]] = []
+    seeds: list[tuple[int, int]] = []
     for start, num_seeds in zip(seeds_strs[::2], seeds_strs[1::2]):
-        init_seeds.append((int(start), int(start) + int(num_seeds) - 1))
+        seeds.append((int(start), int(start) + int(num_seeds) - 1))
     lines = lines[2:]
 
     # Parse list of translation maps for each layer of translations
-    mapset_groups: list[list[TranslationMap]] = []
+    tmaps_layers: list[list[TranslationMap]] = []
     while len(lines) > 0:
-        lines, translation_maps = parse_maps(lines)
-        mapset_groups.append(translation_maps)
+        lines, tmaps = parse_maps(lines)
+        tmaps_layers.append(tmaps)
         lines = lines[1:]
 
-    final_locs: list[tuple[int, int]] = []
+    locations: list[tuple[int, int]] = []
 
-    for init_seed in init_seeds:
-        next_seeds = [init_seed]
+    for seed in seeds:
+        next_seeds = [seed]
 
-        for translation_maps in mapset_groups:
-            next_seeds = process_seed_ranges(next_seeds, translation_maps)
+        for tmaps in tmaps_layers:
+            next_seeds = process_seed_ranges(next_seeds, tmaps)
 
-        final_locs.extend(next_seeds)
+        locations.extend(next_seeds)
 
-    return str(min([loc[0] for loc in final_locs]))
+    return str(min([loc[0] for loc in locations]))

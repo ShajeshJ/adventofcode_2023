@@ -1,5 +1,12 @@
+from collections import OrderedDict
 import typing as t
+import importlib
+import importlib.resources as ilr
 
+import days
+
+
+@t.runtime_checkable
 class Solutions(t.Protocol):
     def part_1(self) -> str:
         ...
@@ -8,21 +15,17 @@ class Solutions(t.Protocol):
         ...
 
 
-import days.day1.solutions as day1
-import days.day2.solutions as day2
-import days.day3.solutions as day3
-import days.day4.solutions as day4
-import days.day5.solutions as day5
-import days.day6.solutions as day6
+_day_dir_names = [d.name for d in ilr.files(days).iterdir() if d.name.startswith("day")]
+_day_dir_names.sort()
 
-ALL_DAYS: dict[int, Solutions] = {
-    1: day1,
-    2: day2,
-    3: day3,
-    4: day4,
-    5: day5,
-    6: day6,
-}
+ALL_DAYS: OrderedDict[int, Solutions] = {}
+for day in _day_dir_names:
+    day_module = importlib.import_module(f"days.{day}.solutions")
+    if isinstance(day_module, Solutions):
+        ALL_DAYS[int(day[3:])] = day_module
+    else:
+        print(f"skipping {day} because it doesn't implement Solutions")
+
 
 def run_solution(solution: Solutions, part_num: t.Literal[1, 2]) -> None:
     if part_num == 1:

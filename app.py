@@ -13,6 +13,7 @@ import days.day2.solutions as day2
 import days.day3.solutions as day3
 import days.day4.solutions as day4
 import days.day5.solutions as day5
+import days.day6.solutions as day6
 
 ALL_DAYS: dict[int, Solutions] = {
     1: day1,
@@ -20,6 +21,7 @@ ALL_DAYS: dict[int, Solutions] = {
     3: day3,
     4: day4,
     5: day5,
+    6: day6,
 }
 
 def run_solution(solution: Solutions, part_num: t.Literal[1, 2]) -> None:

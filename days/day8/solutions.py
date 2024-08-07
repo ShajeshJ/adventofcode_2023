@@ -33,15 +33,12 @@ def part_1() -> str:
     instructions = [0 if c == "L" else 1 for c in lines.pop(0)]
     node_table = parse_node_lookup(lines[1:])
 
-    steps = 0
     cur_node = node_table["AAA"]
 
-    while True:
-        for i in instructions:
-            steps += 1
-            cur_node = node_table[cur_node.children[i]]
-            if cur_node.name == "ZZZ":
-                return str(steps)
+    for dir, steps in zip(itertools.cycle(instructions), itertools.count(1)):
+        cur_node = node_table[cur_node.children[dir]]
+        if cur_node.name == "ZZZ":
+            return str(steps)
 
 
 def nav_path_simultaneously(
@@ -54,13 +51,13 @@ def nav_path_simultaneously(
         node.name for node in node_table.values() if node.last_char == "A"
     }
 
-    for dir, step in zip(itertools.cycle(instructions), itertools.count()):
+    for dir, steps in zip(itertools.cycle(instructions), itertools.count()):
         next_nodes: set[str] = set()
         for node_name in current_nodes:
             node = node_table[node_name]
 
             if node.last_char == "Z":
-                path_lens.add(step)
+                path_lens.add(steps)
                 continue
 
             next_nodes.add(node.children[dir])

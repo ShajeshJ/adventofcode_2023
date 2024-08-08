@@ -8,15 +8,13 @@ import days
 
 @t.runtime_checkable
 class Solutions(t.Protocol):
-    def part_1(self) -> str:
-        ...
+    def part_1(self) -> str: ...
 
-    def part_2(self) -> str:
-        ...
+    def part_2(self) -> str: ...
 
 
 _day_dir_names = [d.name for d in ilr.files(days).iterdir() if d.name.startswith("day")]
-_day_dir_names.sort()
+_day_dir_names.sort(key=lambda x: int(x[3:]))
 
 ALL_DAYS: OrderedDict[int, Solutions] = {}
 for day in _day_dir_names:

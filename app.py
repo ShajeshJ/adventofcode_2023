@@ -1,9 +1,16 @@
-from collections import OrderedDict
-import typing as t
 import importlib
 import importlib.resources as ilr
+import logging
+import typing as t
+from collections import OrderedDict
 
 import days
+
+logging.basicConfig(
+    level=logging.INFO,
+    force=True,
+    format="\033[2m%(levelname)s (%(name)s):\033[0m %(message)s",
+)
 
 
 @t.runtime_checkable

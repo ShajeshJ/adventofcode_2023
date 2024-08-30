@@ -86,30 +86,16 @@ def count_arrangements(row: str, damaged: list[int]) -> int:
 
 def parse_input(raw_lines: list[str]) -> list[tuple[str, list[int]]]:
     return [
-        (
-            line.split(" ")[0],
-            [int(x) for x in line.split(" ")[1].split(",")],
-            int(line.split(" ")[2]) if len(line.split(" ")) == 3 else None,
-        )
+        (line.split(" ")[0], [int(x) for x in line.split(" ")[1].split(",")])
         for line in raw_lines
     ]
 
 
 def part_1() -> str:
     data = parse_input(read_problem_input())
-    total_possible_arrangements = 0
-
-    for row, damaged, expected in data:
-        count = count_arrangements(row, damaged)
-        if expected is not None:
-            assert (
-                count == expected
-            ), f"Expected {expected} but got {count} for {row} {damaged}"
-        total_possible_arrangements += count
-
-    # total_possible_arrangements = sum(
-    #     count_arrangements(row, damaged) for row, damaged in data
-    # )
+    total_possible_arrangements = sum(
+        count_arrangements(row, damaged) for row, damaged in data
+    )
     return str(total_possible_arrangements)
 
 
